@@ -97,7 +97,7 @@ function hoverPoints(){
 //애니메이션
 function animate() {
     requestAnimationFrame(animate);
-    hoverPoints();
+    //hoverPoints();
     renderer.render(scene, camera);
     controls.update();
 }
