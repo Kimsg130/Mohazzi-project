@@ -2,103 +2,159 @@ import {GLTFLoader} from 'GLTFLoader';
 import * as THREE from 'three';
 import {OrbitControls} from 'OrbitControls';
 
-const scene = new THREE.Scene();
-scene.scale.set(0.00015,0.00015,0.00015);
-// scene.position.set(0,0,0);
-scene.background = new THREE.CubeTextureLoader()
-.setPath('source/textures/')
-.load([
-    'space_ft.png',
-    'space_bk.png',
-    'space_up.png',
-    'space_dn.png',
-    'space_rt.png',
-    'space_lf.png',
-]);
+var scene, camera, renderer, controls, light, loader, raycaster, mouse, earth;
+var INTERSECTED = false;
+
+function init(){
+    scene = new THREE.Scene();
+    // scene.scale.set(0.00015,0.00015,0.00015);
+    // scene.position.set(0,0,0);
+    scene.background = new THREE.CubeTextureLoader()
+    .setPath('source/textures/')
+    .load([
+        'space_ft.png',
+        'space_bk.png',
+        'space_up.png',
+        'space_dn.png',
+        'space_rt.png',
+        'space_lf.png',
+    ]);
 
 
-//카메라
-const camera = new THREE.PerspectiveCamera(30, 1);
-//const camera = new THREE.PerspectiveCamera(30, document.querySelector('.canvas').clientWidth / document.querySelector('.canvas').clientHeight);
-camera.position.set(0,0,5);
+    //카메라
+    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0,0,230);
+
+    //렌더러
+    renderer = new THREE.WebGLRenderer({
+        antialias : true
+    });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+    
+    //매쉬
+    const geometry = new THREE.SphereGeometry(4, 32, 16);
+    // for(let i = 0; i<2; i++){
+    //     let sphere = new THREE.Mesh(geometry);
+    //     sphere.material = new THREE.MeshStandardMaterial({ color : 0xffd400 });
+    //     sphere.position.set(-20+(10*i*-1),70,68);
+    //     sphere.name = "sphere"+i;
+    //     scene.add(sphere);
+    // }
+    let sphere1 = new THREE.Mesh(geometry);
+    sphere1.material = new THREE.MeshStandardMaterial({ color : 0xffd400 });
+    sphere1.position.set(-20,70,68);
+    let sphere2 = new THREE.Mesh(geometry);
+    sphere2.material = new THREE.MeshStandardMaterial({ color : 0xffd400 });
+    sphere2.position.set(0,30,94);
+    scene.add(sphere1, sphere2);
+
+    //컨트롤러
+    controls = new OrbitControls(camera, renderer.domElement);
+    controls.enablePan = false;
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.04;
+    controls.rotateSpeed = 0.6;
+    controls.update();
+
+    //빛
+    light = new THREE.AmbientLight(0xffffff, 1);
+    scene.add(light);
+
+    earth = new THREE.Group();
+    //로더
+    loader = new GLTFLoader();
+    loader.load('source/textures/earth_lowpoly/scene.gltf', function(gltf){
+        gltf.scene.scale.set(0.015,0.015,0.015);
+        earth.add(gltf.scene);
+    });
+    scene.add(earth);
+    renderer.render(scene, camera);
+
+    //레이캐스팅
+    raycaster = new THREE.Raycaster();
+    mouse = new THREE.Vector2();
+
+    renderer.outputEncoding = THREE.sRGBEncoding;
+    window.requestAnimationFrame(animate);
+}
+//모달창
+const modal = document.getElementById("modal");
+
+function modalOn() {
+    modal.style.display = "flex"
+}
+function isModalOn() {
+    return modal.style.display === "flex"
+}
+function modalOff() {
+    modal.style.display = "none"
+}
+
+const closeBtn = modal.querySelector(".close-area")
+closeBtn.addEventListener("click", e => {
+    modalOff()
+})
+modal.addEventListener("click", e => {
+    const evTarget = e.target
+    if(evTarget.classList.contains("modal-overlay")) {
+        modalOff()
+    }
+})
 
 
-//렌더러
-const renderer = new THREE.WebGLRenderer({
-    canvas : document.querySelector('#canvas'),
-    antialias : true
-});
-//renderer.setSize(document.querySelector('.canvas').clientWidth, document.querySelector('.canvas').clientHeight);
-
-
-//매쉬
-const geometry = new THREE.SphereGeometry(200, 32, 16);
-const meterial = new THREE.MeshStandardMaterial({
-    color : 0x999999
-});
-const sphere = new THREE.Mesh(geometry, meterial);
-sphere.position.set(-1000,4500,4800);
-scene.add(sphere);
-
-
-//컨트롤러
-const controls = new OrbitControls(camera, renderer.domElement);
-controls.enablePan = false;
-controls.enableDamping = true;
-controls.dampingFactor = 0.04;
-controls.rotateSpeed = 0.6;
-controls.update();
-
-
-//빛
-const light = new THREE.AmbientLight(0xffffff, 1);
-scene.add(light);
-
-
-//로더
-const loader = new GLTFLoader();
-loader.load('source/textures/earth_lowpoly/scene.gltf', function(gltf){
-    scene.add(gltf.scene);
-});
-renderer.render(scene, camera);
-
-
-//레이캐스팅
-const raycaster = new THREE.Raycaster();
-const mouse = new THREE.Vector2();
+//애니메이션
+function animate() {
+    window.requestAnimationFrame(animate);
+    hoverPoints();
+    if(!INTERSECTED){
+        resetMaterials();
+    }
+    renderer.render(scene, camera);
+    controls.update();
+}
 
 function onMouseMove(event){
     mouse.x = ( event.clientX /  window.innerWidth) * 2 - 1;
     mouse.y = -( event.clientY / window.innerHeight) * 2 + 1;
 }
-// document.querySelector('.canvas').clientWidth
-window.addEventListener('mousemove', onMouseMove, false);
 
-// function onWindowResize(){
-//     camera.aspect = window.innerWidth/window.innerHeight;
-//     camera.updateProjectionMatrix();
-//     renderer.setSize(window.innerHeight, window.innerHeight);
-// }
-
-renderer.outputEncoding = THREE.sRGBEncoding;
+function onClick(event){
+    raycaster.setFromCamera(mouse, camera);
+    const intersects = raycaster.intersectObjects(scene.children, false);
+    if(intersects.length >0){
+        modalOn();
+    }
+}
 
 function hoverPoints(){
     raycaster.setFromCamera(mouse, camera);
-    const intersects = raycaster.intersectObjects(scene.children);
-    for ( let i = 0; i < intersects.length; i ++ ) {
-
-        intersects[ i ].object.material.color.set( 0xff0000 );
-
+    const intersects = raycaster.intersectObjects(scene.children, false);
+    if(intersects.length >0){
+        let object = intersects[0].object;
+        object.material.color.set(0xF5F6CE);
+        INTERSECTED = true;
+    }else{
+        INTERSECTED = false;
     }
-
 }
 
-
-//애니메이션
-function animate() {
-    requestAnimationFrame(animate);
-    //hoverPoints();
-    renderer.render(scene, camera);
-    controls.update();
+function resetMaterials(){
+    for (let i=0; i<scene.children.length; i++){
+        if(scene.children[i].material){
+            scene.children[i].material.color.set(0xffd400);
+        }
+    }
 }
-animate();
+
+function onWindowResize(){
+    camera.aspect = window.innerWidth/window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
+window.addEventListener('mousemove', onMouseMove, false);
+window.addEventListener('resize', onWindowResize);
+window.addEventListener('click', onClick);
+
+window.onload = init;
