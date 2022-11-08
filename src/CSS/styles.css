@@ -1,0 +1,104 @@
+ * {
+        margin : 0;
+        padding: 0;
+}
+body {
+    overflow: hidden;
+}
+hr {
+    background-color: rgba(25, 29, 57, 0.908);
+    padding: 0;
+    border: 0;
+    border-top: 5px double #0d0c0b;
+}
+#modal.modal-overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* background: rgba(255, 255, 255, 0.25); */
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(1.5px);
+    -webkit-backdrop-filter: blur(1.5px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+#modal .modal-window {
+    background: rgba(25, 29, 57, 0.908);
+    box-shadow: 0 8px 32px 0 rgba(100, 101, 105, 0.83);
+    backdrop-filter: blur( 13.5px );
+    -webkit-backdrop-filter: blur( 13.5px );
+    border-radius: 10px;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    width: 30vw;
+    height: 40vmin;
+    position: relative;
+    overflow: auto;
+    top: 1%;
+    padding: 10px;
+}
+#modal .close-area {
+    display: inline;
+    float: right;
+    padding-right: 10px;
+    cursor: pointer;
+    text-shadow: 1px 1px 2px gray;
+    color: white;
+}
+#modal .content {
+    margin-top: 20px;
+    padding: 0px 10px;
+    text-shadow: 1px 1px 2px rgb(25, 25, 25);
+    color: gray;
+    font-size: 15px;
+}
+#modal .content > img {
+    width: 85%;
+    height: 20vmin;
+}
+
+#slider-area{
+    position: absolute;
+    width: 20vw;
+    height: 100vh;
+    background: rgba(32, 33, 36, 0.815);
+    border-top-right-radius: 10px;
+}
+#slider-action{
+    margin-top: 50vh;
+    margin-left: -10em;   
+    width: 75vh;
+    position: absolute;
+    display: inline-block;
+    appearance: none;
+    transform: rotate(-90deg);
+    background-color: rgba(32, 33, 36, 0.815);    
+}
+
+#slider-action::-webkit-slider-runnable-track{
+    appearance: none;
+    cursor: pointer;
+    background: rgb(53, 54, 58);
+    border: none;
+    border-radius: 50px;
+    height: 4vw;
+}
+#slider-action::-webkit-slider-thumb {
+    appearance: none;
+    background: rgb(141, 138, 138);
+    border: 2px solid rgb(141, 138, 138);
+    border-radius: 50px;
+    box-shadow: -3px 0 5px 0 rgba(black, .3);
+    cursor: pointer;
+    height: 5vw;
+    width: 5vw;
+    margin-top: -0.5vw;
+}
+datalist{
+    width: auto;
+}

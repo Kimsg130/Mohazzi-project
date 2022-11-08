@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mohazzi?</title>
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="./src/CSS/styles.css">
+</head>
+<body>
+    <!-- 임포트맵 -->
+    <script type="importmap">
+        {
+            "imports": {
+            "three": "https://unpkg.com/three@0.144.0/build/three.module.js",
+            "GLTFLoader":
+            "https://unpkg.com/three@0.144.0/examples/jsm/loaders/GLTFLoader.js",
+            "OrbitControls":
+            "https://unpkg.com/three@0.144.0/examples/jsm/controls/OrbitControls.js"
+          }
+        }
+    </script>
+
+    <!-- 팝업창 -->
+    <div id="modal" class="modal-overlay"> <!--TODO : 원하는 느낌으로 팝업 조정-->
+        <div class="modal-window">
+            <div class="close-area">X</div>
+            <div class="content">
+                <img alt="missing image">
+                <hr><h2 class="content-title"></h2><p class="content-explain"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 슬라이더 -->
+    <div id="slider-area">
+        <!-- <div id="slide"> -->
+        <input id= "slider-action" type="range" min="0" max="5" value="5"/>
+        <!-- </div> -->
+    </div>
+    <!-- 스크립트 -->
+    <script type="module" src="./src/JS/3D-space.js"></script>
+    <script type="module" src="./src/JS/popup.js"></script>
+</body>
+</html>
