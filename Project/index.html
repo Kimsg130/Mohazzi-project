@@ -3,92 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Mohazzi?</title>
-    <!-- 스타일 -->
-    <!-- <style>
-        body{
-            margin: 0;
-            overflow: auto;
-            background-color: #252526;
-        }
-        canvas {
-            width: 745px;
-            height: 745px;
-            float: left;
-        }
-        .mainPage{
-            width:745px;
-            height:745px;
-            float:left;
-        }
-        .scrollPage {
-            width: 15vw;
-            height: 100%;
-            float: left;
-            background-color: #252526;
-            color: aliceblue;
-        }
-        .infoPage {
-            width: auto;
-            height: 100vh;
-            float: left;
-            background-color: #252526;
-            color: aliceblue;
-        }
-        .bodyPage{
-            width: 1200px;
-        }
-    </style> -->
-    <style>
-        * {
-            margin : 0;
-            padding: 0;
-        }
-        #modal.modal-overlay {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            left: 0;
-            top: 0;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            /* background: rgba(255, 255, 255, 0.25); */
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            backdrop-filter: blur(1.5px);
-            -webkit-backdrop-filter: blur(1.5px);
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.18);
-        }
-        #modal .modal-window {
-            background: rgba(239, 229, 86, 0.908);
-            box-shadow: 0 8px 32px 0 rgba(100, 101, 105, 0.83);
-            backdrop-filter: blur( 13.5px );
-            -webkit-backdrop-filter: blur( 13.5px );
-            border-radius: 10px;
-            border: 1px solid rgba( 255, 255, 255, 0.18 );
-            width: 30%;
-            height: 35%;
-            position: relative;
-            top: 1%;
-            padding: 10px;
-        }
-        #modal .close-area {
-            display: inline;
-            float: right;
-            padding-right: 10px;
-            cursor: pointer;
-            text-shadow: 1px 1px 2px gray;
-            color: white;
-        }
-        #modal .content {
-            margin-top: 20px;
-            padding: 0px 10px;
-            text-shadow: 1px 1px 2px gray;
-            color: rgb(0, 0, 0);
-            font-size: 30px;
-        }
-    </style>
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="./src/CSS/styles.css">
 </head>
 <body>
     <!-- 임포트맵 -->
@@ -103,24 +19,26 @@
           }
         }
     </script>
-    
-    <!-- 레이아웃 -->
-    <!-- <div class="bodyPage">
-        <div class="scrollPage">스크롤이 들어갈 페이지</div>
-        <div class="mainPage">
-             <canvas id="canvas" width="2000" height="2000"></canvas>
-        </div>
-        <div class="infoPage">정렬된 사건을 보여줄 페이지</div>
-    </div> -->
-    <div id="modal" class="modal-overlay"> <!--모달-->
+
+    <!-- 팝업창 -->
+    <div id="modal" class="modal-overlay"> <!--TODO : 원하는 느낌으로 팝업 조정-->
         <div class="modal-window">
             <div class="close-area">X</div>
             <div class="content">
-                <p>Clicked!</p>
+                <img alt="missing image">
+                <hr><h2 class="content-title"></h2><p class="content-explain"></p>
             </div>
         </div>
     </div>
-    <!-- 소스코드 -->
-    <script type="module" src="./source/mo.js"></script>
+
+    <!-- 슬라이더 -->
+    <div id="slider-area">
+        <!-- <div id="slide"> -->
+        <input id= "slider-action" type="range" min="0" max="5" value="5"/>
+        <!-- </div> -->
+    </div>
+    <!-- 스크립트 -->
+    <script type="module" src="./src/JS/3D-space.js"></script>
+    <script type="module" src="./src/JS/popup.js"></script>
 </body>
 </html>
