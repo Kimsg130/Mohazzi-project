@@ -2,6 +2,15 @@
         margin : 0;
         padding: 0;
 }
+:root {
+	--bg: #2b2e35af;
+    --fg: #e3e4e8;
+    --bs1: #484c54;
+    --bs2: #181616;
+    --tick: #c7cad1;
+	--transDur: 0.1s;
+	font-size: calc(20px + (40 - 20)*(100vw - 320px)/(2560 - 320));
+}
 body {
     overflow: hidden;
 }
@@ -21,7 +30,6 @@ hr {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    /* background: rgba(255, 255, 255, 0.25); */
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
     backdrop-filter: blur(1.5px);
     -webkit-backdrop-filter: blur(1.5px);
@@ -37,10 +45,25 @@ hr {
     border: 1px solid rgba( 255, 255, 255, 0.18 );
     width: 30vw;
     height: 40vmin;
+    min-width: 300px;
+    min-height: 210px;
     position: relative;
     overflow: auto;
     top: 1%;
     padding: 10px;
+}
+div::-webkit-scrollbar {
+    width: 10px;  /* 스크롤바의 너비 */
+}
+div::-webkit-scrollbar-thumb {
+    height: fit-content; /* 스크롤바의 길이 */
+    background: #37393e; /* 스크롤바의 색상 */
+    
+    border-radius: 50px;
+}
+div::-webkit-scrollbar-track {
+    background: rgba(33, 122, 244, .1);  /*스크롤바 뒷 배경 색상*/
+    border-radius: 50px;
 }
 #modal .close-area {
     display: inline;
@@ -55,50 +78,103 @@ hr {
     padding: 0px 10px;
     text-shadow: 1px 1px 2px rgb(25, 25, 25);
     color: gray;
-    font-size: 15px;
+    font-size: 1vw;
 }
 #modal .content > img {
     width: 85%;
     height: 20vmin;
 }
 
+
 #slider-area{
     position: absolute;
     width: 20vw;
     height: 100vh;
-    background: rgba(32, 33, 36, 0.815);
+    background-color: var(--bg);
+    background-image: url('../images/bar.png');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
     border-top-right-radius: 10px;
 }
+
+#slide{
+    position: relative;
+    transform: rotate(-90deg);
+    margin-top: 70vh;
+}
+
 #slider-action{
-    margin-top: 50vh;
-    margin-left: -10em;   
+    border-radius: 50px;
+    max-width: 40em;
+    /* min-width: 10em; */
     width: 75vh;
-    position: absolute;
+    border: 0;
+    position: relative;
     display: inline-block;
     appearance: none;
-    transform: rotate(-90deg);
-    background-color: rgba(32, 33, 36, 0.815);    
+    background-color: var(--bg);
 }
 
 #slider-action::-webkit-slider-runnable-track{
     appearance: none;
     cursor: pointer;
-    background: rgb(53, 54, 58);
+    background-color: #25272c;
+    background-image: url('../images/trail.png');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
     border: none;
+    box-shadow:
+		0.5vh 0.5vh 1vh var(--bs1) inset,
+		0.5vh 0.5vh 1vh var(--bs2) inset;
     border-radius: 50px;
-    height: 4vw;
+    height: 4.8vw;
 }
 #slider-action::-webkit-slider-thumb {
     appearance: none;
-    background: rgb(141, 138, 138);
-    border: 2px solid rgb(141, 138, 138);
+    position: relative;
+    background-color: #11357e;
+    background-image: url('../images/thumb.png');
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
     border-radius: 50px;
-    box-shadow: -3px 0 5px 0 rgba(black, .3);
+    transform: rotate(90deg);
+    box-shadow:
+		-0.3em -0.3em 0.5em #11357e inset,
+		0 -0.2em 0.2em 0 #0004,
+		0.3em 0.9em 0.8em #0007;
     cursor: pointer;
-    height: 5vw;
-    width: 5vw;
-    margin-top: -0.5vw;
+    height: 4.5vw;
+    width: 4.5vw;
+    z-index: 1;
+    margin-top: 0.15vw;
 }
-datalist{
-    width: auto;
+
+#bigyear{
+    position: absolute;
+    display: none;
+    font-size: 60vh;
+    color: rgba(252, 251, 241, 0.91);
+    width: 100%;
+    text-align: center;
+    margin-top: 18vh;
+    animation: none;
+    transform: scaleY(1.5);
+    font-family: Arial;
+    user-select: none;
+}
+#smallyear{
+    position: absolute;
+    width: 15vw;
+    height: 9vh;
+    margin-top: 5px;
+    right: 2vw;
+    text-align: center;
+    border-radius: 10%;
+    font-size: 5vw;
+    color: var(--bs2);
+    text-shadow: 0px 0px 2px rgb(255, 255, 255);
+    user-select: none;
 }
