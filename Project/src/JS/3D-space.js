@@ -21,7 +21,7 @@ var countrys = {USA : [-20,70,68], RUSSIA : [-10,87,-47], KOREA : [-49,58,-63], 
                 SILA : [-49.63,59.76,-61], ROMA : [72,67,-15], JERUSALEM : [67,54,-50], GAYA : [-49.99,55.75,-64], POM :[72,66,-18],
                 GOGURYU : [-47.95,62.15,-60.94], EGYPT :[79.68,41.94,-42.05], MACEDONIA : [68.40,66.74,-27.26], TURKIYE : [68.14, 62.77, -35.95],
                 PERSIA : [52.75,57,-62], BABYLON : [62.06,52.01,-57.62], CHINA : [-16.28,57.43,-79.45], "CHINA-HEHA" : [-25.77,56.09,-77.88],
-                ATLANTICOCEAN :[56.71,64.34,49], SARAJEVO:[64.92,67.95,-22.57],GERMAN:[61.07,76.48,-14.54],KOREAWAR:[-44.91,59.86,-61.16],
+                ATLANTICOCEAN :[56.71,64.34,49], SARAJEVO:[64.92,67.95,-22.57],GERMAN:[61.07,76.48,-14.54],KOREAWAR:[-45.97,61.28,-62.62],
                 IRELAND:[58.48,79.47,7.35],SPAIN:[74.87,64.55,4.4],ENGLAND:[59.62,78.95,1.74],JAPAN:[-59.84,58.11,-53.22]
 };
 
@@ -65,7 +65,7 @@ function init(){
     controls.enableDamping = true;
     controls.dampingFactor = 0.025;
     controls.rotateSpeed = 0.4;
-    // controls.minDistance = 105;
+    controls.minDistance = 105;
     controls.saveState();
     controls.update();
 
