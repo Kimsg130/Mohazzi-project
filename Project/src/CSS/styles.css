@@ -37,7 +37,7 @@ hr {
     border: 1px solid rgba(255, 255, 255, 0.18);
 }
 #modal .modal-window {
-    background: rgba(25, 29, 57, 0.908);
+    background: rgba(25, 29, 57, 0.91);
     box-shadow: 0 8px 32px 0 rgba(100, 101, 105, 0.83);
     backdrop-filter: blur( 13.5px );
     -webkit-backdrop-filter: blur( 13.5px );
@@ -107,7 +107,6 @@ div::-webkit-scrollbar-track {
 #slider-action{
     border-radius: 50px;
     max-width: 40em;
-    /* min-width: 10em; */
     width: 75vh;
     border: 0;
     position: relative;

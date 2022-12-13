@@ -1,17 +1,17 @@
 
 Todo:
   사건추가
-  ☐ image폴더에 사진 추가
+  ✔ image폴더에 사진 추가 @done(22-11-16 15:56)
   {3D-space.js}
-  ☐ year배열에 항목 추가
-  ☐ country맵에 나라 추가
+  ✔ year배열에 항목 추가 @done(22-11-16 15:56)
+  ✔ country맵에 나라 추가 @done(22-11-16 15:56)
   {expressContent.js}
-  ☐ tTexts배열에 타이틀 추가
-  ☐ eTexts배열에 설명 추가
+  ✔ tTexts배열에 타이틀 추가 @done(22-11-16 15:56)
+  ✔ eTexts배열에 설명 추가 @done(22-11-16 15:56)
 
 Todo:
-  ☐ Git-hub 연결
-  ☐ SliderBar 추가
+  ✔ Git-hub 연결 @done(22-11-16 15:56)
+  ✔ SliderBar 추가 @done(22-11-16 15:56)
   ☐ Popup 스타일 다듬기 -> 툴팁으로
-  ☐ 줌 한계 구현
-  ☐ 스크롤바 예쁘게
+  ✔ 줌 한계 구현 @done(22-11-16 15:56)
+  ✔ 스크롤바 예쁘게 @done(22-11-16 15:56)

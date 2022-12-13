@@ -1,3 +1,5 @@
+//모달창의 대부분을 관장하는 스크립트
+
 const modal = document.getElementById("modal");
 const closeBtn = modal.querySelector(".close-area")
 
