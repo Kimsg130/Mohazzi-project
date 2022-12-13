@@ -1,14 +1,15 @@
+//화면속에 3차원 공간을 만들고 여러가지 기능들을 관장하는 스크립트
+
 import {GLTFLoader} from 'GLTFLoader';
 import * as THREE from 'three';
 import {OrbitControls} from 'OrbitControls';
 import {modalOn} from './popup.js';
-import {expressContent} from './expressContent.js';
+import { getData } from './loadContents.js';
 
 var scene, camera, renderer, controls, light, loader, raycaster, mouse, earth, pins;
 var INTERSECTED = false;
 
-//TODO : 사건이 발생한 나라들을 저장하는 배열 추가
-//TODO : 한 연도에 못해도 6개는 만들기
+//각 시대마다 사건이 일어난 위치를 저장하는 맵
 var year2022 = new Array("2022", "USA", "RUSSIA", "KOREA");
 var year20CE = new Array("20CE","USA","ATLANTICOCEAN","SARAJEVO","KOREA","GERMAN","KOREAWAR","RUSSIA");
 var year16CE = new Array("16CE","IRELAND","GAYA","SPAIN","ENGLAND","JAPAN");
@@ -27,10 +28,10 @@ var countrys = {USA : [-20,70,68], RUSSIA : [-10,87,-47], KOREA : [-49,58,-63], 
 
 var slider = document.getElementById("slider-action");
 
-function init(){
-    
+function init(){ //생성자
     //씬 할당
     scene = new THREE.Scene();
+    //skyBox 배경 적용 *skyBox : 정육면체로 되있는 이미지
     scene.background = new THREE.CubeTextureLoader()
     .setPath('src/textures/')
     .load([
@@ -54,7 +55,7 @@ function init(){
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
     
-    //매쉬
+    //포인트들을 모아둔 그룹 생성
     pins = new THREE.Group();
     pins.name="pins";
     makePoints(year2022);
@@ -94,7 +95,7 @@ function init(){
 }
 
 
-//애니메이션
+//주기적으로 실행되는 메서드
 function animate() {
     window.requestAnimationFrame(animate);
     hoverPoints();
@@ -107,6 +108,7 @@ function animate() {
 }
 
 //3D오브젝트를 생성하는 메서드
+//연도를 매개변수로 받아서 연도에 맞는 포인트들을 생성함
 function makePoints(year){
     const geometry = new THREE.SphereGeometry(2.5, 32, 16);
     for(let i = 1; i<year.length; i++){
@@ -120,7 +122,7 @@ function makePoints(year){
         let country = year[i];
         let coordinate = countrys[country]; //좌표를 배열로 받음
         point.position.set(coordinate[0],coordinate[1],coordinate[2]);
-        point.userData.yc = year[0]+country;
+        point.userData.yc = year[0]+country; //포인트들이 각자 구분될 수 있도록 yc라는 속성을 지정함
         pins.add(point);
     }
     scene.add(pins);
@@ -134,15 +136,13 @@ function onMouseMove(event){
 
 //클릭이벤트가 발생했을 때, 레이와 교차한 객체를 판별하여 기능을 수행하는 메서드
 function onClick(event){
-    console.log(camera.position);
-    raycaster.setFromCamera(mouse, camera);
-    const pin = scene.getObjectByName("pins");
-    const intersects = raycaster.intersectObjects(pin.children, false); //pins.children
-    if(intersects.length >0){
+    raycaster.setFromCamera(mouse, camera); //마우스와 카메라의 위치를 보내 레이캐스터 발사
+    const pin = scene.getObjectByName("pins"); //pins그룹에서 포인트들을 오브젝트 타입으로 받아온다. 
+    const intersects = raycaster.intersectObjects(pin.children, false); //레이캐스터가 충돌한 오브젝트 중 포인트를 저장하는 변수
+    if(intersects.length >0){ //충돌된 오브젝트가 있을때 아래 메서드를 실행
         focusInPin(intersects[0].object);
-        expressContent(intersects[0].object.userData.yc);
+        getData(intersects[0].object.userData.yc);
         modalOn();
-        // console.log(camera.position);
     }
 }
 
@@ -193,6 +193,7 @@ function focusInPin(pin){
 	    .start();
 }
 
+//연도 슬라이더가 변경될 때마다 슬라이더의 값을 연도로 변환해주는 메서드
 function yearChange(){
     let svalue = slider.value;
     let year, yyyy;
@@ -226,11 +227,12 @@ function yearChange(){
             year = year2022;
             yyyy = "";
     }
-    pins.clear();
+    pins.clear(); //전 시간대의 생성되었던 포인트들을 전부 지움
     expressYear(yyyy);
     makePoints(year);
 }
 
+// 시간대가 바뀔때마다 화면에 현재의 시간대를 표현하는 메서드
 function expressYear(yyyy){
     const bigyear = document.querySelector('#bigyear');
     const smallyear = document.querySelector('#smallyear');
